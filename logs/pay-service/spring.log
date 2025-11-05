@@ -1,0 +1,45 @@
+15:28:01:161  INFO 37056 --- [main] com.hmall.pay.PayApplication             : Starting PayApplication using Java 21.0.8 on WangLin with PID 37056 (E:\资料\微服务\SpringCloud微服务—资料\day03-微服务01\资料\hmall\pay-service\target\classes started by 20588 in E:\资料\微服务\SpringCloud微服务—资料\day03-微服务01\资料\hmall)
+15:28:01:164  INFO 37056 --- [main] com.hmall.pay.PayApplication             : The following 1 profile is active: "local"
+15:28:02:155  INFO 37056 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=e53e9d83-1a3e-3329-b44f-724727d91d0a
+15:28:02:592  INFO 37056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8086 (http)
+15:28:02:600  INFO 37056 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+15:28:02:600  INFO 37056 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.75]
+15:28:02:724  INFO 37056 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+15:28:02:724  INFO 37056 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1513 ms
+15:28:02:956  INFO 37056 --- [main] o.s.c.openfeign.FeignClientFactoryBean   : For 'user-service' URL not provided. Will try picking an instance via load-balancing.
+15:28:03:012  INFO 37056 --- [main] o.s.c.openfeign.FeignClientFactoryBean   : For 'trade-service' URL not provided. Will try picking an instance via load-balancing.
+15:28:04:765  INFO 37056 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+15:28:04:801  INFO 37056 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2ControllerWebMvc#getDocumentation(String, HttpServletRequest)]
+15:28:05:861  INFO 37056 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+15:28:06:272  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [RpcClientFactory] create a new rpc client of 54e9188d-bf27-4010-90cf-074c0de4f796
+15:28:06:322  INFO 37056 --- [main] org.reflections.Reflections              : Reflections took 24 ms to scan 1 urls, producing 3 keys and 6 values 
+15:28:06:341  INFO 37056 --- [main] org.reflections.Reflections              : Reflections took 6 ms to scan 1 urls, producing 4 keys and 9 values 
+15:28:06:353  INFO 37056 --- [main] org.reflections.Reflections              : Reflections took 6 ms to scan 1 urls, producing 3 keys and 10 values 
+15:28:06:355  WARN 37056 --- [main] org.reflections.Reflections              : given scan urls are empty. set urls in the configuration
+15:28:06:360  INFO 37056 --- [main] org.reflections.Reflections              : Reflections took 5 ms to scan 1 urls, producing 1 keys and 5 values 
+15:28:06:368  INFO 37056 --- [main] org.reflections.Reflections              : Reflections took 7 ms to scan 1 urls, producing 1 keys and 7 values 
+15:28:06:374  INFO 37056 --- [main] org.reflections.Reflections              : Reflections took 5 ms to scan 1 urls, producing 2 keys and 8 values 
+15:28:06:376  WARN 37056 --- [main] org.reflections.Reflections              : given scan urls are empty. set urls in the configuration
+15:28:06:377  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] RpcClient init label, labels = {module=naming, source=sdk}
+15:28:06:379  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+15:28:06:379  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+15:28:06:379  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+15:28:06:381  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Try to connect to server on start up, server: {serverIp = '121.40.241.29', server main port = 8848}
+15:28:07:066  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Success to connect to server [121.40.241.29:8848] on start up, connectionId = 1762327687058_222.244.139.219_36063
+15:28:07:066  INFO 37056 --- [com.alibaba.nacos.client.remote.worker] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Notify connected event to listeners.
+15:28:07:067  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+15:28:07:067  INFO 37056 --- [main] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x00000211367c1c60
+15:28:07:127  INFO 37056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8086 (http) with context path ''
+15:28:07:158  INFO 37056 --- [main] c.a.c.n.registry.NacosServiceRegistry    : nacos registry, DEFAULT_GROUP pay-service 192.168.80.1:8086 register finished
+15:28:07:680  INFO 37056 --- [nacos-grpc-client-executor-8] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Receive server push request, request = NotifySubscriberRequest, requestId = 98
+15:28:07:683  INFO 37056 --- [nacos-grpc-client-executor-8] com.alibaba.nacos.common.remote.client   : [54e9188d-bf27-4010-90cf-074c0de4f796] Ack server push request, request = NotifySubscriberRequest, requestId = 98
+15:28:08:167  INFO 37056 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+15:28:08:168  INFO 37056 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Documentation plugins bootstrapped
+15:28:08:170  INFO 37056 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+15:28:08:192  INFO 37056 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+15:28:08:273  INFO 37056 --- [main] com.hmall.pay.PayApplication             : Started PayApplication in 8.589 seconds (JVM running for 9.478)
+15:28:38:166  INFO 37056 --- [http-nio-8086-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:28:38:167  INFO 37056 --- [http-nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+15:28:38:170  INFO 37056 --- [http-nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+15:28:56:186  INFO 37056 --- [http-nio-8086-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+15:28:56:670  INFO 37056 --- [http-nio-8086-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
