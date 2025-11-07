@@ -12,7 +12,7 @@ public class MyGlobalFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //TODo 模拟登录逻辑
-        
+
         return chain.filter(exchange);
     }
 
