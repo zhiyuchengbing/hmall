@@ -60,8 +60,16 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     @Override
     public List<CartVO> queryMyCarts() {
-        // 1.查询我的购物车列表
-        List<Cart> carts = lambdaQuery().eq(Cart::getUserId,1L).list(); //TODo
+        // 1.获取登录用户
+        Long userId = UserContext.getUser();
+        System.out.println("CartServiceImpl.queryMyCarts: 当前用户ID = " + userId);
+        if (userId == null) {
+            System.err.println("CartServiceImpl.queryMyCarts: 用户ID为空，返回空列表");
+            return CollUtils.emptyList();
+        }
+        // 2.查询我的购物车列表
+        List<Cart> carts = lambdaQuery().eq(Cart::getUserId, userId).list();
+        System.out.println("CartServiceImpl.queryMyCarts: 查询到购物车数量 = " + (carts != null ? carts.size() : 0));
         if (CollUtils.isEmpty(carts)) {
             return CollUtils.emptyList();
         }

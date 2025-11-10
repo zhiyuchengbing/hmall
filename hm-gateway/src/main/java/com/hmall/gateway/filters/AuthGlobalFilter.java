@@ -47,8 +47,12 @@ public class AuthGlobalFilter  implements GlobalFilter, Ordered {
 
         String token = null;
         List<String> headers= request.getHeaders().get("authorization");
-        if (headers!=null && headers.isEmpty()){
+        if (headers!=null && !headers.isEmpty()){
             token = headers.get(0);
+            // 去掉 Bearer 前缀（如果存在）
+            if (token != null && token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
         }
         Long userId = null;
 
@@ -64,13 +68,20 @@ public class AuthGlobalFilter  implements GlobalFilter, Ordered {
 
         }
         //传递用户信息
-        System.out.println("userId:"+userId);
+        System.out.println("AuthGlobalFilter: 解析到的userId = " + userId);
+        if (userId == null) {
+            System.err.println("AuthGlobalFilter: userId 为空，返回 401");
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return response.setComplete();
+        }
+        String userInfo = userId.toString();
+        // 注意：Spring Cloud Gateway 会将 header 名称转换为小写，所以使用小写名称
+        ServerWebExchange swe = exchange.mutate()
+                .request(builder -> builder.header("user-info", userInfo)).build();
+        System.out.println("AuthGlobalFilter: 传递用户信息 header user-info = " + userInfo);
 
-
-
-
-        //todo5传递用户信息
-        return chain.filter(exchange);
+        return chain.filter(swe);
     }
 
     private boolean isExcludePath(String Path) {
