@@ -45,7 +45,16 @@ public class CartController {
     @GetMapping
     public List<CartVO> queryMyCarts(@RequestHeader(value = "user-info",required = false)String userInfo)
     {
-        System.out.println("CartController.queryMyCarts: 接收到的 user-info = " + userInfo);
+        System.out.println("CartController.queryMyCarts: 接收到的 user-info = " + userInfo + ", 线程=" + Thread.currentThread().getId());
+        // 验证UserContext中的用户信息
+        Long contextUserId = com.hmall.common.utils.UserContext.getUser();
+        System.out.println("CartController.queryMyCarts: UserContext中的用户ID = " + contextUserId + ", 线程=" + Thread.currentThread().getId());
+        
+        if (contextUserId == null) {
+            System.err.println("CartController.queryMyCarts: UserContext中用户ID为空，可能存在线程污染问题!");
+            return java.util.Collections.emptyList();
+        }
+        
         return cartService.queryMyCarts();
     }
     @ApiOperation("批量删除购物车中商品")

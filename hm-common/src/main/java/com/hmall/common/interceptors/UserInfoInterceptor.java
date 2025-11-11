@@ -22,13 +22,19 @@ public class UserInfoInterceptor implements HandlerInterceptor {
         if(StrUtil.isNotBlank(userInfo)){
             try {
                 Long userId = Long.valueOf(userInfo);
+                // 强制清理之前的ThreadLocal值，防止线程复用污染
+                UserContext.removeUser();
                 UserContext.setUser(userId);
-                System.out.println("UserInfoInterceptor: 设置用户ID = " + userId);
+                System.out.println("UserInfoInterceptor: 设置用户ID = " + userId + ", 线程=" + Thread.currentThread().getId());
             } catch (NumberFormatException e) {
                 System.err.println("UserInfoInterceptor: 用户ID格式错误: " + userInfo);
+                // 清理可能存在的无效值
+                UserContext.removeUser();
             }
         } else {
             System.err.println("UserInfoInterceptor: 未找到用户信息 header");
+            // 确保ThreadLocal是空的
+            UserContext.removeUser();
         }
 
         //放行
@@ -37,8 +43,10 @@ public class UserInfoInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-        // 移除用户信息
+        // 移除用户信息，防止线程复用时用户信息串用
+        Long userId = UserContext.getUser();
         UserContext.removeUser();
+        System.out.println("UserInfoInterceptor: 清理用户ID = " + userId + ", 线程=" + Thread.currentThread().getId());
     }
 
 

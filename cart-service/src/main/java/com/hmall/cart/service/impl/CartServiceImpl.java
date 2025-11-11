@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.hmall.api.client.ItemClient;
 import com.hmall.api.dto.ItemDTO;
+import com.hmall.cart.config.CartProperties;
 import com.hmall.cart.domain.dto.CartFormDTO;
 import com.hmall.cart.domain.po.Cart;
 import com.hmall.cart.domain.vo.CartVO;
@@ -35,6 +36,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 //    private final RestTemplate restTemplate;
 //    private final DiscoveryClient discoveryClient;
     private  final ItemClient itemClient;
+    private final CartProperties cartProperties;
 
 
 
@@ -42,6 +44,12 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     public void addItem2Cart(CartFormDTO cartFormDTO) {
         // 1.获取登录用户
         Long userId = UserContext.getUser();
+        System.out.println("CartServiceImpl.addItem2Cart: 当前用户ID = " + userId + ", 线程=" + Thread.currentThread().getId());
+        
+        if (userId == null) {
+            System.err.println("CartServiceImpl.addItem2Cart: 用户ID为空，可能存在线程污染问题! 线程=" + Thread.currentThread().getId());
+            throw new BizIllegalException("用户未登录或用户信息异常");
+        }
 
         // 2.判断是否已经存在
         if (checkItemExists(cartFormDTO.getItemId(), userId)) {
@@ -62,14 +70,17 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     public List<CartVO> queryMyCarts() {
         // 1.获取登录用户
         Long userId = UserContext.getUser();
-        System.out.println("CartServiceImpl.queryMyCarts: 当前用户ID = " + userId);
+        System.out.println("CartServiceImpl.queryMyCarts: 当前用户ID = " + userId + ", 线程=" + Thread.currentThread().getId());
+        
         if (userId == null) {
-            System.err.println("CartServiceImpl.queryMyCarts: 用户ID为空，返回空列表");
-            return CollUtils.emptyList();
+            System.err.println("CartServiceImpl.queryMyCarts: 用户ID为空，可能存在线程污染问题! 线程=" + Thread.currentThread().getId());
+            throw new BizIllegalException("用户未登录或用户信息异常");
         }
+        
         // 2.查询我的购物车列表
         List<Cart> carts = lambdaQuery().eq(Cart::getUserId, userId).list();
-        System.out.println("CartServiceImpl.queryMyCarts: 查询到购物车数量 = " + (carts != null ? carts.size() : 0));
+        System.out.println("CartServiceImpl.queryMyCarts: 用户ID " + userId + " 查询到购物车数量 = " + (carts != null ? carts.size() : 0) + ", 线程=" + Thread.currentThread().getId());
+        
         if (CollUtils.isEmpty(carts)) {
             return CollUtils.emptyList();
         }
@@ -138,17 +149,25 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     @Override
     public void removeByItemIds(Collection<Long> itemIds) {
+        Long userId = UserContext.getUser();
+        System.out.println("CartServiceImpl.removeByItemIds: 当前用户ID = " + userId + ", 线程=" + Thread.currentThread().getId());
+        
+        if (userId == null) {
+            System.err.println("CartServiceImpl.removeByItemIds: 用户ID为空，可能存在线程污染问题! 线程=" + Thread.currentThread().getId());
+            throw new BizIllegalException("用户未登录或用户信息异常");
+        }
+        
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
-                .eq(Cart::getUserId, UserContext.getUser())
+                .eq(Cart::getUserId, userId)
                 .in(Cart::getItemId, itemIds);
         remove(queryWrapper);
     }
 
     private void checkCartsFull(Long userId) {
         Long count = lambdaQuery().eq(Cart::getUserId, userId).count();
-        if (count >= 10) {
-            throw new BizIllegalException(StrUtil.format("用户购物车商品不能超过{}", 10));
+        if (count >= cartProperties.getMaxItems()) {
+            throw new BizIllegalException(StrUtil.format("用户购物车商品不能超过{}", cartProperties.getMaxItems()));
         }
     }
 

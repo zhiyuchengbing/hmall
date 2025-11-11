@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -33,6 +34,8 @@ public class AuthGlobalFilter  implements GlobalFilter, Ordered {
 
 
         ServerHttpRequest request = exchange.getRequest();
+//        HttpHeaders headers1 = request.getHeaders();
+//        System.out.println("AuthGlobalFilter: 请求头 = " + headers1);
 
 
         //2 判断是否需要做登录拦截
@@ -59,7 +62,7 @@ public class AuthGlobalFilter  implements GlobalFilter, Ordered {
 
         //4 校验并解析tokrn
         try {
-            userId = jwtTool.parseToken(token);
+            userId = jwtTool.parseToken(token);   //校验并解析token
 
         }catch (UnauthorizedException  e){
             ServerHttpResponse response = exchange.getResponse();
