@@ -1,15 +1,15 @@
-
 spring:
   application:
-    name: cart-service
+    name: cart-service # 服务名称
   profiles:
     active: dev
-
   cloud:
     nacos:
-      server-addr: 121.40.241.29:8848
+      server-addr: 121.40.241.29 # nacos地址
       config:
-        file-extension: yaml
-        shared-configs:
-          - data-id: shared-log.yaml
-
+        file-extension: yaml # 文件后缀名
+        shared-configs: # 共享配置
+          - dataId: shared-jdbc.yaml # 共享mybatis配置
+          - dataId: shared-log.yaml # 共享日志配置
+          - dataId: shared-swagger.yaml # 共享日志配置
+          - dataId: shared-seata.yaml
