@@ -9,7 +9,9 @@ import com.heima.item.service.IItemService;
 import com.hmall.common.exception.BizIllegalException;
 import com.hmall.common.utils.BeanUtils;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements IItemService {
 
     @Override
+    @Transactional
     public void deductStock(List<OrderDetailDTO> items) {
         String sqlStatement = "com.heima.item.mapper.ItemMapper.updateStock";
         boolean r = false;

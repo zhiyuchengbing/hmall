@@ -19,6 +19,7 @@ import com.hmall.common.utils.UserContext;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.function.Function;
@@ -148,6 +149,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     }
 
     @Override
+    @Transactional
     public void removeByItemIds(Collection<Long> itemIds) {
         Long userId = UserContext.getUser();
         System.out.println("CartServiceImpl.removeByItemIds: 当前用户ID = " + userId + ", 线程=" + Thread.currentThread().getId());
@@ -165,14 +167,14 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     }
 
     private void checkCartsFull(Long userId) {
-        Long count = lambdaQuery().eq(Cart::getUserId, userId).count();
+        Integer count = lambdaQuery().eq(Cart::getUserId, userId).count();
         if (count >= cartProperties.getMaxItems()) {
             throw new BizIllegalException(StrUtil.format("用户购物车商品不能超过{}", cartProperties.getMaxItems()));
         }
     }
 
     private boolean checkItemExists(Long itemId, Long userId) {
-        Long count = lambdaQuery()
+        Integer count = lambdaQuery()
                 .eq(Cart::getUserId, userId)
                 .eq(Cart::getItemId, itemId)
                 .count();

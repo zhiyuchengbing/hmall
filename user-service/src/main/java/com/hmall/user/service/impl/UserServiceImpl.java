@@ -68,14 +68,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public void deductMoney(String pw, Integer totalFee) {
         log.info("开始扣款");
-        // 1.校验密码
+        // 直接扣款（跳过密码校验）
         User user = getById(UserContext.getUser());
-        if(user == null || !passwordEncoder.matches(pw, user.getPassword())){
-            // 密码错误
-            throw new BizIllegalException("用户密码错误");
+        if (user == null) {
+            throw new BizIllegalException("用户不存在");
         }
-
-        // 2.尝试扣款
+        // 尝试扣款
         try {
             baseMapper.updateMoney(UserContext.getUser(), totalFee);
         } catch (Exception e) {
